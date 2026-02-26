@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Somarte Bank - Acceso Seguro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap 5 + Iconos -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        /* Estilos personalizados para mejorar la experiencia */
+        :root {
+            --primary-dark: #0a58ca;
+            --primary-light: #6ea8fe;
+            --success-dark: #146c43;
+            --warning-dark: #997404;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0B3D91 0%, #1a4ca3 50%, #2b5cb5 100%);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        .card {
+            border-radius: 20px;
+            overflow: hidden;
+            animation: slideIn 0.3s ease-out;
+            border: none;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 8px 16px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.98);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-header {
+            border-bottom: none;
+            padding: 1.5rem 1rem;
+        }
+
+        .card-header h4 {
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .card-header i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: #495057;
+            margin-bottom: 0.4rem;
+        }
+
+        .form-control, .form-select {
+            border-radius: 12px;
+            border: 2px solid #e9ecef;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-dark);
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+        }
+
+        .form-control.is-invalid, .form-select.is-invalid {
+            border-color: #dc3545;
+            background-image: none;
+        }
+
+        .btn {
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #0B3D91, #1a4ca3);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #0a357a, #154291);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #ffc107, #ffb300);
+            border: none;
+            color: #000;
+        }
+
+        .btn-warning:hover {
+            background: linear-gradient(135deg, #ffb300, #ffa000);
+            color: #000;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #198754, #157347);
+            border: none;
+        }
+
+        .btn-success:hover {
+            background: linear-gradient(135deg, #157347, #12633e);
+        }
+
+        .btn-link {
+            color: #6c757d;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+        }
+
+        .btn-link:hover {
+            color: #0B3D91;
+            text-decoration: underline;
+        }
+
+        /* Loader para peticiones */
+        .btn-loading {
+            position: relative;
+            color: transparent !important;
+            pointer-events: none;
+        }
+
+        .btn-loading::after {
+            content: '';
+            position: absolute;
+            width: 1.2rem;
+            height: 1.2rem;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Alertas personalizadas */
+        .alert-custom {
+            border-radius: 12px;
+            border: none;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        /* Responsive */
+        @media (max-width: 576px) {
+            .card {
+                margin: 1rem;
+            }
+            
+            .card-header {
+                padding: 1.2rem 0.8rem;
+            }
+            
+            .card-header i {
+                font-size: 1.5rem;
+            }
+            
+            .btn {
+                padding: 0.6rem 1rem;
+            }
+        }
+
+        /* Efecto de partículas de fondo (opcional) */
+        .bg-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-particles::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.1) 0%, transparent 50%);
+        }
+    </style>
+</head>
+<body class="d-flex justify-content-center align-items-center vh-100">
+
+    <!-- Contenedor principal con animación -->
+    <div class="position-relative" style="z-index: 1;">
+        
+        <!-- Paso 1: Login (mejorado) -->
+        <div id="login" class="card shadow-lg" style="max-width: 420px; width: 100%;">
+            <div class="card-header bg-primary text-white text-center">
+                <i class="bi bi-bank2"></i>
+                <h4 class="mb-0">Bienvenido a Somarte Bank</h4>
+                <p class="mb-0 mt-2 small opacity-75">Accede a tu cuenta</p>
+            </div>
+            <div class="card-body p-4">
+                <form id="loginForm" novalidate>
+                    <div class="mb-4">
+                        <label for="usuario" class="form-label">
+                            <i class="bi bi-person-circle me-1"></i> Usuario
+                        </label>
+                        <input type="text" id="usuario" name="user" class="form-control" 
+                               placeholder="Ingresa tu usuario" required autofocus>
+                        <div class="invalid-feedback">Por favor ingresa tu usuario</div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="password" class="form-label">
+                            <i class="bi bi-lock me-1"></i> Contraseña
+                        </label>
+                        <div class="input-group">
+                            <input type="password" id="password" name="pass" class="form-control" 
+                                   placeholder="Ingresa tu contraseña" required>
+                            <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('password')">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                        <div class="invalid-feedback">Por favor ingresa tu contraseña</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 mb-3" id="btnLogin">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Ingresar
+                    </button>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-link" onclick="mostrarRecuperar()">
+                            <i class="bi bi-question-circle me-1"></i>¿Olvidaste tu contraseña?
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer bg-transparent text-center text-muted small py-3">
+                <i class="bi bi-shield-check me-1"></i> Tu seguridad es nuestra prioridad
+            </div>
+        </div>
+
+        <!-- Paso 2: Recuperar contraseña (validación de documento) mejorado -->
+        <div id="recuperar1" class="card shadow-lg border-0" style="max-width: 420px; width: 100%; display: none;">
+            <div class="card-header bg-warning text-dark text-center">
+                <i class="bi bi-key"></i>
+                <h4 class="mb-0">Recuperar Contraseña</h4>
+                <p class="mb-0 mt-2 small">Paso 1 de 2 - Verifica tu identidad</p>
+            </div>
+            <div class="card-body p-4">
+                <form id="validateForm" novalidate>
+                    <div class="mb-4">
+                        <label for="tdoc" class="form-label">
+                            <i class="bi bi-card-text me-1"></i> Tipo Documento
+                        </label>
+                        <select id="tdoc" name="tdoc" class="form-select" required>
+                            <option value="" selected disabled>-- Selecciona tipo --</option>
+                            <option value="1">DNI</option>
+                            <option value="2">RUC</option>
+                            <option value="3">Carnet Extranjería</option>
+                            <option value="4">Pasaporte</option>
+                        </select>
+                        <div class="invalid-feedback">Selecciona un tipo de documento</div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="ndoc" class="form-label">
+                            <i class="bi bi-file-text me-1"></i> Número Documento
+                        </label>
+                        <input type="text" id="ndoc" name="ndoc" class="form-control" 
+                               placeholder="Ingresa número" required>
+                        <div class="invalid-feedback">Ingresa tu número de documento</div>
+                    </div>
+                    <button type="submit" class="btn btn-warning w-100 mb-3" id="btnValidate">
+                        <i class="bi bi-check-circle me-2"></i>Validar documento
+                    </button>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-link" onclick="volverLogin()">
+                            <i class="bi bi-arrow-left me-1"></i>Volver al inicio
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Paso 3: Nueva contraseña mejorado -->
+        <div id="recuperar2" class="card shadow-lg border-0" style="max-width: 420px; width: 100%; display: none;">
+            <div class="card-header bg-success text-white text-center">
+                <i class="bi bi-shield-lock"></i>
+                <h4 class="mb-0">Nueva Contraseña</h4>
+                <p class="mb-0 mt-2 small">Paso 2 de 2 - Establece tu nueva clave</p>
+            </div>
+            <div class="card-body p-4">
+                <form id="resetForm" novalidate>
+                    <div class="mb-4">
+                        <label for="newpass" class="form-label">
+                            <i class="bi bi-lock me-1"></i> Nueva Contraseña
+                        </label>
+                        <div class="input-group">
+                            <input type="password" id="newpass" name="newpass" class="form-control" 
+                                   placeholder="Mínimo 8 caracteres" required minlength="8">
+                            <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('newpass')">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                        <small class="text-muted">Mínimo 8 caracteres, incluye números y letras</small>
+                        <div class="invalid-feedback">La contraseña debe tener al menos 8 caracteres</div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="confpass" class="form-label">
+                            <i class="bi bi-lock-fill me-1"></i> Confirmar Contraseña
+                        </label>
+                        <div class="input-group">
+                            <input type="password" id="confpass" name="confpass" class="form-control" 
+                                   placeholder="Repite tu contraseña" required>
+                            <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('confpass')">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                        <div class="invalid-feedback">Las contraseñas no coinciden</div>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100 mb-3" id="btnReset">
+                        <i class="bi bi-check-lg me-2"></i>Guardar nueva contraseña
+                    </button>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-link" onclick="volverLogin()">
+                            <i class="bi bi-arrow-left me-1"></i>Volver al inicio
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenedor para alertas personalizadas -->
+    <div id="alertContainer" class="position-fixed top-0 end-0 p-3" style="z-index: 9999;"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Variables de estado
+        let tdoc = '';
+        let ndoc = '';
+        
+        // Configuración de validación
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
+        // Función para mostrar alertas personalizadas
+        function mostrarAlerta(mensaje, tipo = 'danger') {
+            const alertContainer = document.getElementById('alertContainer');
+            const alertId = 'alert-' + Date.now();
+            const icono = {
+                'success': 'bi-check-circle-fill',
+                'danger': 'bi-exclamation-triangle-fill',
+                'warning': 'bi-exclamation-circle-fill',
+                'info': 'bi-info-circle-fill'
+            }[tipo] || 'bi-info-circle-fill';
+            
+            const alerta = document.createElement('div');
+            alerta.id = alertId;
+            alerta.className = `alert alert-${tipo} alert-custom d-flex align-items-center shadow-lg`;
+            alerta.setAttribute('role', 'alert');
+            alerta.innerHTML = `
+                <i class="bi ${icono} me-2 fs-4"></i>
+                <div class="flex-grow-1">${mensaje}</div>
+                <button type="button" class="btn-close" onclick="cerrarAlerta('${alertId}')"></button>
+            `;
+            
+            alertContainer.appendChild(alerta);
+            
+            // Auto-cerrar después de 5 segundos
+            setTimeout(() => {
+                const alertaElement = document.getElementById(alertId);
+                if (alertaElement) {
+                    alertaElement.style.transition = 'opacity 0.3s';
+                    alertaElement.style.opacity = '0';
+                    setTimeout(() => alertaElement.remove(), 300);
+                }
+            }, 5000);
+        }
+
+        function cerrarAlerta(id) {
+            const alerta = document.getElementById(id);
+            if (alerta) alerta.remove();
+        }
+
+        // Función para mostrar/ocultar contraseña
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const button = input.nextElementSibling;
+            const icon = button.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
+            }
+        }
+
+        // Función para validar formularios en tiempo real
+        function validarCampo(input, validacion) {
+            if (!input.value.trim()) {
+                input.classList.add('is-invalid');
+                return false;
+            }
+            
+            if (validacion && !validacion(input.value)) {
+                input.classList.add('is-invalid');
+                return false;
+            }
+            
+            input.classList.remove('is-invalid');
+            input.classList.add('is-valid');
+            return true;
+        }
+
+        // Función para mostrar loading en botones
+        function setLoading(button, isLoading) {
+            if (isLoading) {
+                button.classList.add('btn-loading');
+                button.disabled = true;
+            } else {
+                button.classList.remove('btn-loading');
+                button.disabled = false;
+            }
+        }
+
+        // Navegación entre pasos
+        function mostrarRecuperar() {
+            document.getElementById('login').style.animation = 'slideOut 0.3s ease-out';
+            document.getElementById('login').style.display = 'none';
+            document.getElementById('recuperar1').style.display = 'block';
+            document.getElementById('recuperar1').style.animation = 'slideIn 0.3s ease-out';
+        }
+        
+        function volverLogin() {
+            // Limpiar formularios
+            document.getElementById('validateForm').reset();
+            document.getElementById('resetForm').reset();
+            
+            // Remover clases de validación
+            document.querySelectorAll('.is-valid, .is-invalid').forEach(el => {
+                el.classList.remove('is-valid', 'is-invalid');
+            });
+            
+            document.getElementById('recuperar2').style.display = 'none';
+            document.getElementById('recuperar1').style.display = 'none';
+            document.getElementById('login').style.display = 'block';
+            document.getElementById('login').style.animation = 'slideIn 0.3s ease-out';
+        }
+
+        // Login con validación mejorada
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const usuario = document.getElementById('usuario');
+            const password = document.getElementById('password');
+            const btnLogin = document.getElementById('btnLogin');
+            
+            // Validar campos
+            const usuarioValido = validarCampo(usuario);
+            const passValido = validarCampo(password);
+            
+            if (!usuarioValido || !passValido) {
+                mostrarAlerta('Por favor completa todos los campos', 'warning');
+                return;
+            }
+            
+            setLoading(btnLogin, true);
+            
+            try {
+                const formData = new FormData(this);
+                const response = await fetch('/auth', { 
+                    method: 'POST', 
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                const result = await response.json();
+                
+                if (result.ok) {
+                    mostrarAlerta('¡Bienvenido! Redirigiendo...', 'success');
+                    setTimeout(() => {
+                        window.location.href = result.ruta;
+                    }, 1000);
+                } else {
+                    mostrarAlerta(result.mensaje, 'danger');
+                    setLoading(btnLogin, false);
+                }
+            } catch (error) {
+                mostrarAlerta('Error de conexión. Intente nuevamente.', 'danger');
+                setLoading(btnLogin, false);
+            }
+        });
+
+        // Validar documento mejorado
+        document.getElementById('validateForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const tdocSelect = document.getElementById('tdoc');
+            const ndocInput = document.getElementById('ndoc');
+            const btnValidate = document.getElementById('btnValidate');
+            
+            // Validar campos
+            const tdocValido = validarCampo(tdocSelect);
+            const ndocValido = validarCampo(ndocInput);
+            
+            if (!tdocValido || !ndocValido) {
+                mostrarAlerta('Por favor selecciona tipo y número de documento', 'warning');
+                return;
+            }
+            
+            setLoading(btnValidate, true);
+            
+            try {
+                const formData = new FormData(this);
+                const response = await fetch('/validate', { 
+                    method: 'POST', 
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                const result = await response.json();
+                
+                if (result.ok) {
+                    tdoc = result.datos.tdoc;
+                    ndoc = result.datos.ndoc;
+                    
+                    document.getElementById('recuperar1').style.display = 'none';
+                    document.getElementById('recuperar2').style.display = 'block';
+                    mostrarAlerta('Documento validado correctamente', 'success');
+                } else {
+                    mostrarAlerta(result.mensaje, 'danger');
+                }
+                
+                setLoading(btnValidate, false);
+            } catch (error) {
+                mostrarAlerta('Error de conexión. Intente nuevamente.', 'danger');
+                setLoading(btnValidate, false);
+            }
+        });
+
+        // Reset contraseña mejorado
+        document.getElementById('resetForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const newpass = document.getElementById('newpass');
+            const confpass = document.getElementById('confpass');
+            const btnReset = document.getElementById('btnReset');
+            
+            // Validar contraseñas
+            const newpassValido = validarCampo(newpass, (val) => passwordRegex.test(val));
+            const confpassValido = validarCampo(confpass, (val) => val === newpass.value);
+            
+            if (!newpassValido || !confpassValido) {
+                if (newpass.value !== confpass.value) {
+                    mostrarAlerta('Las contraseñas no coinciden', 'warning');
+                } else if (newpass.value.length < 8) {
+                    mostrarAlerta('La contraseña debe tener al menos 8 caracteres', 'warning');
+                } else {
+                    mostrarAlerta('La contraseña debe incluir letras y números', 'warning');
+                }
+                return;
+            }
+            
+            setLoading(btnReset, true);
+            
+            try {
+                const formData = new FormData(this);
+                formData.append("tdoc", tdoc);
+                formData.append("ndoc", ndoc);
+                
+                const response = await fetch('/recupera-contraseña', { 
+                    method: 'POST', 
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                const result = await response.json();
+                
+                if (result.ok) {
+                    mostrarAlerta("Contraseña actualizada con éxito", 'success');
+                    setTimeout(() => {
+                        volverLogin();
+                    }, 1500);
+                } else {
+                    mostrarAlerta(result.mensaje, 'danger');
+                    setLoading(btnReset, false);
+                }
+            } catch (error) {
+                mostrarAlerta('Error de conexión. Intente nuevamente.', 'danger');
+                setLoading(btnReset, false);
+            }
+        });
+
+        // Validación en tiempo real
+        document.getElementById('usuario').addEventListener('input', function() {
+            validarCampo(this);
+        });
+        
+        document.getElementById('password').addEventListener('input', function() {
+            validarCampo(this);
+        });
+        
+        document.getElementById('tdoc').addEventListener('change', function() {
+            validarCampo(this);
+        });
+        
+        document.getElementById('ndoc').addEventListener('input', function() {
+            validarCampo(this);
+        });
+        
+        document.getElementById('newpass').addEventListener('input', function() {
+            validarCampo(this, (val) => passwordRegex.test(val));
+        });
+        
+        document.getElementById('confpass').addEventListener('input', function() {
+            const newpass = document.getElementById('newpass');
+            validarCampo(this, (val) => val === newpass.value);
+        });
+
+        // Prevenir envío con Enter si hay campos inválidos
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                }
+            });
+        });
+
+        // Agregar animación de salida
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideOut {
+                from {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+                to {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Somarte Bank - Portal de Operaciones</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome para iconos profesionales -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* =========================
+        Variables y reset mejorados
+        ========================= */
+        :root {
+            --brand-navy: #0B3D91;
+            --brand-navy-light: #1e4da3;
+            --brand-navy-dark: #082a63;
+            --muted-gray: #E6E9EE;
+            --surface: #FFFFFF;
+            --surface-alt: #f8f9fa;
+            --text: #222222;
+            --text-light: #555555;
+            --border: #dee2e6;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --success: #198754;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --info: #0dcaf0;
+            --transition: all 0.2s ease-in-out;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f5f7fa;
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* =========================
+        Header mejorado
+        ========================= */
+        header {
+            background: var(--surface);
+            box-shadow: var(--shadow-sm);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 1020;
+            backdrop-filter: blur(8px);
+            background-color: rgba(255,255,255,0.95);
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-img {
+            height: 42px;
+            width: auto;
+            display: block;
+            object-fit: contain;
+            transition: var(--transition);
+        }
+
+        .logo-img:hover {
+            transform: scale(1.02);
+            opacity: 0.95;
+        }
+
+        .header-brand h1 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0;
+            color: var(--brand-navy);
+            letter-spacing: -0.01em;
+        }
+
+        .header-brand .bank {
+            font-weight: 400;
+            color: var(--text-light);
+        }
+
+        /* Navegación mejorada */
+        .nav-link-custom {
+            color: var(--text);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-link-custom:hover {
+            background-color: var(--muted-gray);
+            color: var(--brand-navy);
+        }
+
+        .nav-link-custom:focus-visible {
+            outline: 2px solid var(--brand-navy);
+            outline-offset: 2px;
+        }
+
+        /* =========================
+        Main y contenedor central mejorado
+        ========================= */
+        main {
+            flex: 1;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .content {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 1000px;
+            min-height: 70vh;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+        }
+
+        /* =========================
+        Barra de herramientas mejorada
+        ========================= */
+        .content-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--muted-gray);
+        }
+
+        .btn-operation {
+            background: var(--surface);
+            border: 1px solid var(--brand-navy);
+            color: var(--brand-navy);
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .btn-operation:hover {
+            background: var(--brand-navy);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(11,61,145,0.2);
+        }
+
+        .btn-operation:active {
+            transform: translateY(0);
+        }
+
+        .btn-operation i {
+            font-size: 1rem;
+        }
+
+        /* =========================
+        Formularios mejorados
+        ========================= */
+        .operation-form {
+            background: var(--surface-alt);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+        }
+
+        .operation-form h2 {
+            color: var(--brand-navy);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+
+        .form-control-custom {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: var(--surface);
+        }
+
+        .form-control-custom:focus {
+            outline: none;
+            border-color: var(--brand-navy);
+            box-shadow: 0 0 0 3px rgba(11,61,145,0.1);
+        }
+
+        .form-select-custom {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: var(--surface);
+            cursor: pointer;
+        }
+
+        .btn-confirm {
+            background: var(--brand-navy);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 0.5rem;
+        }
+
+        .btn-confirm:hover {
+            background: var(--brand-navy-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(11,61,145,0.3);
+        }
+
+        .btn-confirm:active {
+            transform: translateY(0);
+        }
+
+        /* =========================
+        Tabla de datos mejorada
+        ========================= */
+        .transaction-data {
+            margin-top: 2rem;
+            background: var(--surface);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .transaction-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .transaction-table td {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .transaction-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .transaction-table td:first-child {
+            font-weight: 600;
+            width: 120px;
+            color: var(--brand-navy);
+        }
+
+        .transaction-table td:nth-child(2) {
+            width: 20px;
+            color: var(--text-light);
+        }
+
+        .transaction-table td:last-child {
+            font-weight: 500;
+        }
+
+        .btn-extorno {
+            background: var(--warning);
+            color: var(--text);
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            margin: 1rem 1.5rem 1.5rem;
+            transition: var(--transition);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-extorno:hover {
+            background: #e0a800;
+            transform: translateY(-2px);
+        }
+
+        /* =========================
+        Footer mejorado
+        ========================= */
+        footer {
+            background: var(--surface);
+            color: var(--text-light);
+            padding: 1.25rem;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            margin-top: auto;
+            font-size: 0.9rem;
+        }
+
+        footer span {
+            color: var(--brand-navy);
+            font-weight: 600;
+        }
+
+        /* =========================
+        Utilidades y accesibilidad
+        ========================= */
+        .visually-hidden:not(:focus) {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            padding: 0;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            border: 0;
+        }
+
+        a:focus-visible, button:focus-visible {
+            outline: 2px solid var(--brand-navy);
+            outline-offset: 2px;
+        }
+
+        /* =========================
+        Responsive mejorado
+        ========================= */
+        @media (max-width: 768px) {
+            main { padding: 1rem 0.5rem; }
+            .content { padding: 1.5rem; }
+            .content-header { gap: 8px; }
+            .btn-operation { 
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+            .header-brand h1 { font-size: 1rem; }
+            .logo-img { height: 36px; }
+        }
+
+        @media (max-width: 480px) {
+            .content-header { 
+                flex-direction: column; 
+                align-items: stretch;
+            }
+            .btn-operation { 
+                justify-content: center;
+                width: 100%;
+            }
+            .transaction-table td {
+                padding: 0.75rem 1rem;
+            }
+            .transaction-table td:first-child {
+                width: 90px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header mejorado con semántica -->
+    <header class="py-2">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="header-brand">
+                <img alt="Logotipo SomarTe-Bank" src="/Logo.png" class="logo-img" loading="lazy">
+                <h1>SomarTe<span class="bank">‑Bank</span></h1>
+            </div>
+            <nav aria-label="Navegación principal">
+                <ul class="d-flex list-unstyled mb-0 gap-2">
+                    <li>
+                        <a href="#" class="nav-link-custom" aria-label="Cerrar operaciones del día">
+                            <i class="fas fa-clock" aria-hidden="true"></i>
+                            <span>Cerrar día</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main -->
+    <main>
+        <div class="content">
+            <div class="content-header">
+                <button type="button" onclick="Depositar(50,1)" class="btn-operation" aria-label="Realizar depósito">
+                    <i class="fas fa-arrow-down" aria-hidden="true"></i>
+                    Depositar
+                </button>
+                <button type="button" onclick="Retirar(50,2)" class="btn-operation" aria-label="Realizar retiro">
+                    <i class="fas fa-arrow-up" aria-hidden="true"></i>
+                    Retirar
+                </button>
+                <button type="button" onclick="pagarCuota(50,3)" class="btn-operation" aria-label="Pagar cuota">
+                    <i class="fas fa-credit-card" aria-hidden="true"></i>
+                    Pagar Cuota
+                </button>
+                <button type="button" onclick="solicitarExtorno(52,1)" class="btn-operation" aria-label="Solicitar extorno">
+                    <i class="fas fa-undo-alt" aria-hidden="true"></i>
+                    Solicitar Extorno
+                </button>
+            </div>
+            <div class="content-body" id="content-body">
+                <!-- El contenido dinámico se inyectará aquí -->
+                <div class="text-center text-muted py-5">
+                    <i class="fas fa-hand-pointer fa-3x mb-3" aria-hidden="true"></i>
+                    <p>Selecciona una operación para comenzar</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center">
+            <small>&copy; 2026 SomarTe<span>Bank</span> - Todos los derechos reservados</small>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Función helper para mostrar mensajes de error
+        function mostrarError(mensaje) {
+            const body = document.getElementById("content-body");
+            body.innerHTML = `
+                <div class="alert alert-danger d-flex align-items-center gap-3" role="alert">
+                    <i class="fas fa-exclamation-triangle fa-2x"></i>
+                    <div>
+                        <h4 class="alert-heading">Error</h4>
+                        <p class="mb-0">${mensaje}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Función helper para validar números
+        function esNumeroValido(valor) {
+            return !isNaN(valor) && valor > 0;
+        }
+
+        // Depósito mejorado
+        function Depositar(mod, tran) {
+            const body = document.getElementById("content-body");
+            body.innerHTML = `
+                <div class="operation-form">
+                    <h2>
+                        <i class="fas fa-arrow-down" aria-hidden="true"></i>
+                        Depósito a cuenta
+                    </h2>
+                    <form onsubmit="event.preventDefault(); confirmarDeposito();">
+                        <div class="form-group">
+                            <label for="moneda-deposito">Moneda:</label>
+                            <select id="moneda-deposito" class="form-select-custom" required>
+                                <option value="">-- Seleccione moneda --</option>
+                                <option value="0">Soles (PEN)</option>
+                                <option value="1">Dólares (USD)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cuenta-deposito">Número de cuenta:</label>
+                            <input type="number" id="cuenta-deposito" class="form-control-custom" 
+                                   placeholder="Ej: 123456789" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="importe-deposito">Importe:</label>
+                            <input type="number" id="importe-deposito" class="form-control-custom" 
+                                   placeholder="0.00" min="0.01" step="0.01" required>
+                        </div>
+                        <button type="submit" class="btn-confirm">
+                            <i class="fas fa-check-circle" aria-hidden="true"></i>
+                            Confirmar depósito
+                        </button>
+                    </form>
+                </div>
+            `;
+        }
+
+        function confirmarDeposito() {
+            const moneda = document.getElementById('moneda-deposito');
+            const cuenta = document.getElementById('cuenta-deposito');
+            const importe = document.getElementById('importe-deposito');
+            
+            if (!moneda.value) {
+                mostrarError('Por favor seleccione una moneda');
+                moneda.focus();
+                return;
+            }
+            
+            if (!cuenta.value || !esNumeroValido(cuenta.value)) {
+                mostrarError('Por ingrese un número de cuenta válido');
+                cuenta.focus();
+                return;
+            }
+            
+            if (!importe.value || !esNumeroValido(importe.value)) {
+                mostrarError('Por favor ingrese un importe válido');
+                importe.focus();
+                return;
+            }
+            
+            const datos = new URLSearchParams();
+            datos.append("moneda", moneda.value);
+            datos.append("cuenta", cuenta.value);
+            datos.append("importe", importe.value);
+
+
+            fetch("/c/depositar", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+              },
+              body: datos
+            })
+            .then(res => res.json())
+            .then(data => {
+	        	if (data.ok) {
+	        		alert(data.mensaje);
+	        		moneda.value = '';
+	        		cuenta.value = '';
+	        		importe.value = '';
+	        	} else {
+	        		alert(data.mensaje);
+	        	}
+            });
+
+        }
+
+        // Retiro mejorado
+        function Retirar(mod, tran) {
+            const body = document.getElementById("content-body");
+            body.innerHTML = `
+                <div class="operation-form">
+                    <h2>
+                        <i class="fas fa-arrow-up" aria-hidden="true"></i>
+                        Retiro de cuenta
+                    </h2>
+                    <form onsubmit="event.preventDefault(); confirmarRetiro();">
+                        <div class="form-group">
+                            <label for="moneda-retiro">Moneda:</label>
+                            <select id="moneda-retiro" class="form-select-custom" required>
+                                <option value="">-- Seleccione moneda --</option>
+                                <option value="0">Soles (PEN)</option>
+                                <option value="1">Dólares (USD)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cuenta-retiro">Número de cuenta:</label>
+                            <input type="number" id="cuenta-retiro" class="form-control-custom" 
+                                   placeholder="Ej: 123456789" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="importe-retiro">Importe:</label>
+                            <input type="number" id="importe-retiro" class="form-control-custom" 
+                                   placeholder="0.00" min="0.01" step="0.01" required>
+                        </div>
+                        <button type="submit" class="btn-confirm">
+                            <i class="fas fa-check-circle" aria-hidden="true"></i>
+                            Confirmar retiro
+                        </button>
+                    </form>
+                </div>
+            `;
+        }
+
+        function confirmarRetiro() {
+            const moneda = document.getElementById('moneda-retiro');
+            const cuenta = document.getElementById('cuenta-retiro');
+            const importe = document.getElementById('importe-retiro');
+            
+            if (!moneda.value) {
+                mostrarError('Por favor seleccione una moneda');
+                moneda.focus();
+                return;
+            }
+            
+            if (!cuenta.value || !esNumeroValido(cuenta.value)) {
+                mostrarError('Por favor ingrese un número de cuenta válido');
+                cuenta.focus();
+                return;
+            }
+            
+            if (!importe.value || !esNumeroValido(importe.value)) {
+                mostrarError('Por favor ingrese un importe válido');
+                importe.focus();
+                return;
+            }
+            
+            const datos = new URLSearchParams();
+            datos.append("moneda", moneda.value);
+            datos.append("cuenta", cuenta.value);
+            datos.append("importe", importe.value);
+
+
+            fetch("/c/retirar", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+              },
+              body: datos
+            })
+            .then(res => res.json())
+            .then(data => {
+	        	if (data.ok) {
+	        		alert(data.mensaje);
+	        		moneda.value = '';
+	        		cuenta.value = '';
+	        		importe.value = '';
+	        	} else {
+	        		alert(data.mensaje);
+	        	}
+            });
+        }
+
+        // Pago de cuota mejorado
+        function pagarCuota(mod, tran) {
+            const body = document.getElementById("content-body");
+            body.innerHTML = `
+                <div class="operation-form">
+                    <h2>
+                        <i class="fas fa-credit-card" aria-hidden="true"></i>
+                        Pago de cuota
+                    </h2>
+                    <div class="alert alert-info d-flex align-items-center gap-3">
+                        <i class="fas fa-info-circle fa-2x"></i>
+                        <div>
+                            <strong>Servicio en mantenimiento</strong>
+                            <p class="mb-0">Esta funcionalidad estará disponible próximamente.</p>
+                        </div>
+                    </div>
+                    <form>
+                        <div class="form-group">
+                            <label for="prestamo">Número de préstamo:</label>
+                            <input type="number" id="prestamo" class="form-control-custom" 
+                                   placeholder="Ej: 1001" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="cuota">Número de cuota:</label>
+                            <input type="number" id="cuota" class="form-control-custom" 
+                                   placeholder="Ej: 5" disabled>
+                        </div>
+                        <button type="button" class="btn-confirm" disabled>
+                            <i class="fas fa-check-circle" aria-hidden="true"></i>
+                            Confirmar pago (próximamente)
+                        </button>
+                    </form>
+                </div>
+            `;
+        }
+
+        // Extorno mejorado
+        function solicitarExtorno(mod, tran) {
+            const body = document.getElementById("content-body");
+            body.innerHTML = `
+                <div class="operation-form">
+                    <h2>
+                        <i class="fas fa-undo-alt" aria-hidden="true"></i>
+                        Solicitar Extorno
+                    </h2>
+                    <form onsubmit="event.preventDefault(); buscarTransaccion();">
+                        <div class="form-group">
+                            <label for="modulo">Módulo:</label>
+                            <input type="number" id="modulo" class="form-control-custom" 
+                                   value="52" placeholder="Ej: 50" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="transaccion">Transacción:</label>
+                            <input type="number" id="transaccion" class="form-control-custom" 
+                                   value="1" placeholder="Ej: 100" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="relacion">Nro. Relación:</label>
+                            <input type="number" id="relacion" class="form-control-custom" 
+                                   placeholder="Ej: 1000" required>
+                        </div>
+                        <button type="submit" class="btn-confirm">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                            Buscar transacción
+                        </button>
+                    </form>
+                    <div class="transaction-data" id="datos-transaccion" style="display: none;">
+                        <table class="transaction-table">
+                            <tr>
+                                <td><strong>Cuenta</strong></td>
+                                <td>:</td>
+                                <td id="cuenta-extorno">232</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Cajero</strong></td>
+                                <td>:</td>
+                                <td id="cajero-extorno">RRAMOSM</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Importe</strong></td>
+                                <td>:</td>
+                                <td id="importe-extorno">S/ 200.00</td>
+                            </tr>
+                        </table>
+                        <button type="button" onclick="confirmaExtorno()" class="btn-extorno">
+                            <i class="fas fa-check-circle" aria-hidden="true"></i>
+                            Confirmar extorno
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function buscarTransaccion() {
+            const modulo = document.getElementById('modulo').value;
+            const transaccion = document.getElementById('transaccion').value;
+            const relacion = document.getElementById('relacion').value;
+            
+            if (!modulo || !transaccion || !relacion) {
+                mostrarError('Todos los campos son obligatorios');
+                return;
+            }
+            
+            // Simular búsqueda exitosa
+            const datosDiv = document.getElementById('datos-transaccion');
+            datosDiv.style.display = 'block';
+            
+            // Aquí se haría la llamada real al backend
+            // Por ahora mostramos datos de ejemplo
+        }
+
+        function confirmaExtorno() {
+            if (confirm('¿Está seguro que desea confirmar el extorno?')) {
+                alert('Extorno procesado exitosamente');
+                // Limpiar el formulario y ocultar datos
+                const datosDiv = document.getElementById('datos-transaccion');
+                if (datosDiv) {
+                    datosDiv.style.display = 'none';
+                }
+            }
+        }
+    </script>
+</body>
+</html>

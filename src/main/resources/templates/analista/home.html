@@ -1,0 +1,1658 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Somarte Bank - Portal Analista</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome para iconos profesionales -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* =========================
+        Variables y reset mejorados
+        ========================= */
+        :root {
+            --brand-navy: #0B3D91;
+            --brand-navy-light: #1e4da3;
+            --brand-navy-dark: #082a63;
+            --muted-gray: #E6E9EE;
+            --surface: #FFFFFF;
+            --surface-alt: #f8f9fa;
+            --text: #222222;
+            --text-light: #555555;
+            --border: #dee2e6;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --success: #198754;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --info: #0dcaf0;
+            --transition: all 0.2s ease-in-out;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f5f7fa;
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* =========================
+        Header mejorado
+        ========================= */
+        header {
+            background: var(--surface);
+            box-shadow: var(--shadow-sm);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 1020;
+            backdrop-filter: blur(8px);
+            background-color: rgba(255,255,255,0.95);
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-img {
+            height: 42px;
+            width: auto;
+            display: block;
+            object-fit: contain;
+            transition: var(--transition);
+        }
+
+        .logo-img:hover {
+            transform: scale(1.02);
+            opacity: 0.95;
+        }
+
+        .header-brand h1 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0;
+            color: var(--brand-navy);
+            letter-spacing: -0.01em;
+        }
+
+        .header-brand .bank {
+            font-weight: 400;
+            color: var(--text-light);
+        }
+
+        /* Navegación mejorada */
+        .nav-link-custom {
+            color: var(--text);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-link-custom:hover {
+            background-color: var(--muted-gray);
+            color: var(--brand-navy);
+        }
+
+        .nav-link-custom:focus-visible {
+            outline: 2px solid var(--brand-navy);
+            outline-offset: 2px;
+        }
+
+        /* =========================
+        Main y contenedor central mejorado
+        ========================= */
+        main {
+            flex: 1;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .content {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 1200px;
+            min-height: 70vh;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+        }
+
+        /* =========================
+        Barra de herramientas mejorada
+        ========================= */
+        .content-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--muted-gray);
+        }
+
+        .btn-operation {
+            background: var(--surface);
+            border: 1px solid var(--brand-navy);
+            color: var(--brand-navy);
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .btn-operation:hover {
+            background: var(--brand-navy);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(11,61,145,0.2);
+        }
+
+        .btn-operation:active {
+            transform: translateY(0);
+        }
+
+        .btn-operation i {
+            font-size: 1rem;
+        }
+
+        /* =========================
+        Formularios mejorados
+        ========================= */
+        .operation-form {
+            background: var(--surface-alt);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+
+        .operation-form h2 {
+            color: var(--brand-navy);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid var(--muted-gray);
+            padding-bottom: 0.75rem;
+        }
+
+        .form-section {
+            background: var(--surface);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+        }
+
+        .form-section h3 {
+            color: var(--brand-navy-light);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+
+        .form-control-custom {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: var(--surface);
+        }
+
+        .form-control-custom:focus {
+            outline: none;
+            border-color: var(--brand-navy);
+            box-shadow: 0 0 0 3px rgba(11,61,145,0.1);
+        }
+
+        .form-select-custom {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: var(--surface);
+            cursor: pointer;
+        }
+
+        .btn-confirm {
+            background: var(--brand-navy);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-confirm:hover {
+            background: var(--brand-navy-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(11,61,145,0.3);
+        }
+
+        .btn-confirm:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: var(--muted-gray);
+            color: var(--text);
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-secondary:hover {
+            background: #d0d4dd;
+            transform: translateY(-2px);
+        }
+
+        /* =========================
+        Tablas de cronograma
+        ========================= */
+        .prestamos-list {
+            margin-top: 2rem;
+        }
+
+        .prestamo-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .prestamo-item:hover {
+            background: var(--muted-gray);
+            border-color: var(--brand-navy);
+        }
+
+        .prestamo-item.selected {
+            background: #e3f2fd;
+            border-color: var(--brand-navy);
+        }
+
+        .prestamo-info {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .prestamo-info span {
+            font-weight: 500;
+        }
+
+        .badge-success {
+            background: var(--success);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .badge-warning {
+            background: var(--warning);
+            color: var(--text);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .badge-danger {
+            background: var(--danger);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .badge-secondary {
+            background: #6c757d;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .badge-dark {
+            background: #343a40;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .badge-light {
+            background: #f8f9fa;
+            color: #212529;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .table-cronograma {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+        }
+
+        .table-cronograma th {
+            background: var(--brand-navy);
+            color: white;
+            padding: 0.75rem;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .table-cronograma td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .table-cronograma tr:hover {
+            background: var(--muted-gray);
+        }
+
+        .pagado-si {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .pagado-no {
+            color: var(--danger);
+            font-weight: 600;
+        }
+
+        /* =========================
+        Footer mejorado
+        ========================= */
+        footer {
+            background: var(--surface);
+            color: var(--text-light);
+            padding: 1.25rem;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            margin-top: auto;
+            font-size: 0.9rem;
+        }
+
+        footer span {
+            color: var(--brand-navy);
+            font-weight: 600;
+        }
+
+        /* =========================
+        Utilidades y accesibilidad
+        ========================= */
+        .visually-hidden:not(:focus) {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            padding: 0;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            border: 0;
+        }
+
+        a:focus-visible, button:focus-visible {
+            outline: 2px solid var(--brand-navy);
+            outline-offset: 2px;
+        }
+
+        .alert {
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid transparent;
+        }
+
+        .alert-info {
+            background-color: #cff4fc;
+            border-color: #b6effb;
+            color: #055160;
+        }
+
+        .alert-success {
+            background-color: #d1e7dd;
+            border-color: #badbcc;
+            color: #0a3622;
+        }
+
+        .alert-warning {
+            background-color: #fff3cd;
+            border-color: #ffe69c;
+            color: #664d03;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            border-color: #f5c2c7;
+            color: #58151c;
+        }
+
+        /* =========================
+        Responsive mejorado
+        ========================= */
+        @media (max-width: 768px) {
+            main { padding: 1rem 0.5rem; }
+            .content { padding: 1.5rem; }
+            .content-header { gap: 8px; }
+            .btn-operation { 
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+            .header-brand h1 { font-size: 1rem; }
+            .logo-img { height: 36px; }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .prestamo-info {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content-header { 
+                flex-direction: column; 
+                align-items: stretch;
+            }
+            .btn-operation { 
+                justify-content: center;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header mejorado con semántica -->
+    <header class="py-2">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="header-brand">
+                <img alt="Logotipo SomarTe-Bank" src="/Logo.png" class="logo-img" loading="lazy">
+                <h1>SomarTe<span class="bank">‑Bank</span> <span class="badge bg-primary ms-2">Analista</span></h1>
+            </div>
+            <nav aria-label="Navegación principal">
+                <ul class="d-flex list-unstyled mb-0 gap-2">
+                    <li>
+                        <a href="#" class="nav-link-custom" aria-label="Cerrar operaciones del día">
+                            <i class="fas fa-clock" aria-hidden="true"></i>
+                            <span>Cerrar día</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link-custom" aria-label="Perfil de analista">
+                            <i class="fas fa-user-tie" aria-hidden="true"></i>
+                            <span>Analista: J. Pérez</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main -->
+    <main>
+        <div class="content">
+            <div class="content-header">
+                <button type="button" onclick="nuevoCliente()" class="btn-operation" aria-label="Registrar nuevo cliente">
+                    <i class="fas fa-user-plus" aria-hidden="true"></i>
+                    Nuevo cliente
+                </button>
+                <button type="button" onclick="crearCuenta()" class="btn-operation" aria-label="Crear nueva cuenta">
+                    <i class="fas fa-piggy-bank" aria-hidden="true"></i>
+                    Crear cuenta
+                </button>
+                <button type="button" onclick="evaluarCliente()" class="btn-operation" aria-label="Evaluar cliente">
+                    <i class="fas fa-chart-line" aria-hidden="true"></i>
+                    Evaluar cliente
+                </button>
+                <button type="button" onclick="verCronograma()" class="btn-operation" aria-label="Ver cronograma">
+                    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                    Ver Cronograma
+                </button>
+            </div>
+            <div class="content-body" id="content-body">
+                <!-- El contenido dinámico se inyectará aquí -->
+                <div class="text-center text-muted py-5">
+                    <i class="fas fa-chart-pie fa-3x mb-3" aria-hidden="true"></i>
+                    <p>Selecciona una operación de analista para comenzar</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center">
+            <small>&copy; 2026 SomarTe<span>Bank</span> - Portal Analista - Todos los derechos reservados</small>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Variables de estado para elementos dinámicos
+        let direccionesCount = 0;
+        let contactosCount = 0;
+        let vinculadosCount = 0;
+        let prestamosSeleccionados = [];
+
+        // Función helper para mostrar alertas
+        function mostrarAlerta(mensaje, tipo = 'info') {
+            const body = document.getElementById('content-body');
+            const alerta = document.createElement('div');
+            alerta.className = `alert alert-${tipo} alert-dismissible fade show mt-3`;
+            alerta.setAttribute('role', 'alert');
+            alerta.innerHTML = `
+                <i class="fas ${tipo === 'success' ? 'fa-check-circle' : tipo === 'danger' ? 'fa-exclamation-circle' : 'fa-info-circle'} me-2"></i>
+                ${mensaje}
+                <button type="button" class="btn-close" onclick="this.parentElement.remove()"></button>
+            `;
+            body.insertBefore(alerta, body.firstChild);
+            
+            // Auto-cerrar después de 5 segundos
+            setTimeout(() => {
+                if (alerta.parentElement) {
+                    alerta.style.transition = 'opacity 0.3s';
+                    alerta.style.opacity = '0';
+                    setTimeout(() => alerta.remove(), 300);
+                }
+            }, 5000);
+        }
+
+        // ==================== NUEVO CLIENTE ====================
+        function nuevoCliente() {
+            const body = document.getElementById("content-body");
+            direccionesCount = 0;
+            contactosCount = 0;
+            vinculadosCount = 0;
+            
+            body.innerHTML = `
+                <div class="operation-form">
+                    <h2>
+                        <i class="fas fa-user-plus" aria-hidden="true"></i>
+                        Registro de Nuevo Cliente
+                    </h2>
+                    
+                    <form id="formNuevoCliente" onsubmit="event.preventDefault(); guardarCliente()">
+                        <!-- Datos Personales (lst001) -->
+                        <div class="form-section">
+                            <h3><i class="fas fa-id-card"></i> Datos Personales</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="tdoc">Tipo Documento <span class="text-danger">*</span></label>
+                                    <select id="tdoc" name="l1tdoc" class="form-select-custom" required>
+                                        <option value="">-- Seleccione --</option>
+                                        <option value="1">DNI</option>
+                                        <option value="2">RUC</option>
+                                        <option value="3">Carnet Extranjería</option>
+                                        <option value="4">Pasaporte</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="ndoc">Número Documento <span class="text-danger">*</span></label>
+                                    <input type="text" id="ndoc" name="l1ndoc" class="form-control-custom" placeholder="Ej: 12345678" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="ape1">Primer Apellido</label>
+                                    <input type="text" id="ape1" name="l1ape1" class="form-control-custom" placeholder="Ej: García">
+                                </div>
+                                <div class="form-group">
+                                    <label for="ape2">Segundo Apellido</label>
+                                    <input type="text" id="ape2" name="l1ape2" class="form-control-custom" placeholder="Ej: Pérez">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="nom1">Primer Nombre</label>
+                                    <input type="text" id="nom1" name="l1nom1" class="form-control-custom" placeholder="Ej: Juan">
+                                </div>
+                                <div class="form-group">
+                                    <label for="nom2">Segundo Nombre</label>
+                                    <input type="text" id="nom2" name="l1nom2" class="form-control-custom" placeholder="Ej: Carlos">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="nomb">Nombre Completo (Razón Social)</label>
+                                <input type="text" id="nomb" name="l1nomb" class="form-control-custom" placeholder="Ej: Juan Carlos García Pérez">
+                            </div>
+                        </div>
+
+                        <!-- Direcciones (lst002) - Opcional -->
+                        <div class="form-section" id="direcciones-section">
+                            <h3><i class="fas fa-map-marker-alt"></i> Direcciones <small class="text-muted">(Opcional)</small></h3>
+                            
+                            <div id="direcciones-container"></div>
+                            
+                            <button type="button" class="btn-add" onclick="agregarDireccion()">
+                                <i class="fas fa-plus"></i> Agregar Dirección
+                            </button>
+                        </div>
+
+                        <!-- Contactos (lst003) - Opcional -->
+                        <div class="form-section" id="contactos-section">
+                            <h3><i class="fas fa-address-book"></i> Contactos <small class="text-muted">(Opcional)</small></h3>
+                            
+                            <div id="contactos-container"></div>
+                            
+                            <button type="button" class="btn-add" onclick="agregarContacto()">
+                                <i class="fas fa-plus"></i> Agregar Contacto
+                            </button>
+                        </div>
+
+                        <!-- Personas Vinculadas (lst004) - Opcional -->
+                        <div class="form-section" id="vinculados-section">
+                            <h3><i class="fas fa-users"></i> Personas Vinculadas <small class="text-muted">(Opcional)</small></h3>
+                            
+                            <div id="vinculados-container"></div>
+                            
+                            <button type="button" class="btn-add" onclick="agregarVinculado()">
+                                <i class="fas fa-plus"></i> Agregar Persona Vinculada
+                            </button>
+                        </div>
+
+                        <div class="d-flex gap-3 justify-content-end mt-4">
+                            <button type="button" class="btn-secondary" onclick="limpiarFormulario()">
+                                <i class="fas fa-times"></i> Cancelar
+                            </button>
+                            <button type="submit" class="btn-confirm">
+                                <i class="fas fa-save"></i> Guardar Cliente
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            `;
+        }
+
+        function generarDireccionHTML(corr) {
+            return `
+                <div class="direccion-item mb-3 p-3 border rounded" id="direccion-${corr}">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="mb-0">Dirección #${corr}</h6>
+                        <button type="button" class="btn-remove" onclick="eliminarDireccion(${corr})">
+                            <i class="fas fa-trash"></i> Eliminar
+                        </button>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Departamento</label>
+                            <input type="text" name="direcciones[${corr}].l2depa" class="form-control-custom" placeholder="Ej: Lima">
+                        </div>
+                        <div class="form-group">
+                            <label>Provincia</label>
+                            <input type="text" name="direcciones[${corr}].l2prov" class="form-control-custom" placeholder="Ej: Lima">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Distrito</label>
+                            <input type="text" name="direcciones[${corr}].l2dist" class="form-control-custom" placeholder="Ej: Miraflores">
+                        </div>
+                        <div class="form-group">
+                            <label>País</label>
+                            <input type="text" name="direcciones[${corr}].l2pais" class="form-control-custom" value="PERÚ" placeholder="Ej: PERÚ">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Dirección completa</label>
+                        <input type="text" name="direcciones[${corr}].l2direc" class="form-control-custom" placeholder="Ej: Av. Principal 123">
+                    </div>
+                    <input type="hidden" name="direcciones[${corr}].l2corr" value="${corr}">
+                </div>
+            `;
+        }
+
+        function generarContactoHTML(corr) {
+            return `
+                <div class="contacto-item mb-3 p-3 border rounded" id="contacto-${corr}">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="mb-0">Contacto #${corr}</h6>
+                        <button type="button" class="btn-remove" onclick="eliminarContacto(${corr})">
+                            <i class="fas fa-trash"></i> Eliminar
+                        </button>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Teléfono</label>
+                            <input type="text" name="contactos[${corr}].l3tel" class="form-control-custom" placeholder="Ej: 987654321">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" name="contactos[${corr}].l3mail" class="form-control-custom" placeholder="Ej: correo@ejemplo.com">
+                        </div>
+                    </div>
+                    <input type="hidden" name="contactos[${corr}].l3corr" value="${corr}">
+                </div>
+            `;
+        }
+
+        function generarVinculadoHTML(corr) {
+            return `
+                <div class="vinculado-item mb-3 p-3 border rounded" id="vinculado-${corr}">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="mb-0">Persona Vinculada #${corr}</h6>
+                        <button type="button" class="btn-remove" onclick="eliminarVinculado(${corr})">
+                            <i class="fas fa-trash"></i> Eliminar
+                        </button>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Tipo</label>
+                            <select name="vinculados[${corr}].l4tip" class="form-select-custom">
+                                <option value="1">Cónyuge</option>
+                                <option value="2">Representante Legal</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tipo Documento</label>
+                            <select name="vinculados[${corr}].l4tdoc" class="form-select-custom">
+                                <option value="">-- Seleccione --</option>
+                                <option value="1">DNI</option>
+                                <option value="2">RUC</option>
+                                <option value="3">Carnet Extranjería</option>
+                                <option value="4">Pasaporte</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Número Documento</label>
+                            <input type="text" name="vinculados[${corr}].l4ndoc" class="form-control-custom" placeholder="Ej: 12345678">
+                        </div>
+                        <div class="form-group">
+                            <label>Nombre Completo</label>
+                            <input type="text" name="vinculados[${corr}].l5nomb" class="form-control-custom" placeholder="Ej: María García">
+                        </div>
+                    </div>
+                    <input type="hidden" name="vinculados[${corr}].l4corr" value="${corr}">
+                </div>
+            `;
+        }
+
+        function agregarDireccion() {
+            direccionesCount++;
+            const container = document.getElementById('direcciones-container');
+            container.insertAdjacentHTML('beforeend', generarDireccionHTML(direccionesCount));
+        }
+
+        function eliminarDireccion(corr) {
+            const elemento = document.getElementById(`direccion-${corr}`);
+            if (elemento) {
+                elemento.remove();
+            }
+        }
+
+        function agregarContacto() {
+            contactosCount++;
+            const container = document.getElementById('contactos-container');
+            container.insertAdjacentHTML('beforeend', generarContactoHTML(contactosCount));
+        }
+
+        function eliminarContacto(corr) {
+            const elemento = document.getElementById(`contacto-${corr}`);
+            if (elemento) {
+                elemento.remove();
+            }
+        }
+
+        function agregarVinculado() {
+            vinculadosCount++;
+            const container = document.getElementById('vinculados-container');
+            container.insertAdjacentHTML('beforeend', generarVinculadoHTML(vinculadosCount));
+        }
+
+        function eliminarVinculado(corr) {
+            const elemento = document.getElementById(`vinculado-${corr}`);
+            if (elemento) {
+                elemento.remove();
+            }
+        }
+
+        function guardarCliente() {
+            // Validar campos obligatorios (solo datos personales)
+            const tdoc = document.getElementById('tdoc');
+            const ndoc = document.getElementById('ndoc');
+            const ape1 = document.getElementById('ape1');
+            const ape2 = document.getElementById('ape2');
+            const nom1 = document.getElementById('nom1');
+            const nom2 = document.getElementById('nom2');
+            const nomb = document.getElementById('nomb');
+
+            if (!tdoc.value) {
+                mostrarAlerta('Debe seleccionar el tipo de documento', 'warning');
+                tdoc.focus();
+                return;
+            }
+
+            if (!ndoc.value) {
+                mostrarAlerta('Debe ingresar el número de documento', 'warning');
+                ndoc.focus();
+                return;
+            }
+
+            // Recolectar datos personales
+            const datosPersonales = {
+                l1tdoc: tdoc.value,
+                l1ndoc: ndoc.value,
+                l1ape1: ape1.value || '',
+                l1ape2: ape2.value || '',
+                l1nom1: nom1.value || '',
+                l1nom2: nom2.value || '',
+                l1nomb: nomb.value || ''
+            };
+
+            // Recolectar direcciones
+            const direcciones = [];
+            const direccionItems = document.querySelectorAll('[id^="direccion-"]');
+            direccionItems.forEach((item, index) => {
+                const corr = index + 1;
+                direcciones.push({
+                    l2corr: corr,
+                    l2depa: item.querySelector('[name*="l2depa"]')?.value || '',
+                    l2prov: item.querySelector('[name*="l2prov"]')?.value || '',
+                    l2dist: item.querySelector('[name*="l2dist"]')?.value || '',
+                    l2pais: item.querySelector('[name*="l2pais"]')?.value || 'PERÚ',
+                    l2direc: item.querySelector('[name*="l2direc"]')?.value || ''
+                });
+            });
+
+            // Recolectar contactos
+            const contactos = [];
+            const contactoItems = document.querySelectorAll('[id^="contacto-"]');
+            contactoItems.forEach((item, index) => {
+                const corr = index + 1;
+                contactos.push({
+                    l3corr: corr,
+                    l3tel: item.querySelector('[name*="l3tel"]')?.value || '',
+                    l3mail: item.querySelector('[name*="l3mail"]')?.value || ''
+                });
+            });
+
+            // Recolectar personas vinculadas
+            const vinculados = [];
+            const vinculadoItems = document.querySelectorAll('[id^="vinculado-"]');
+            vinculadoItems.forEach((item, index) => {
+                const corr = index + 1;
+                vinculados.push({
+                    l4corr: corr,
+                    l4tip: item.querySelector('[name*="l4tip"]')?.value || '',
+                    l4tdoc: item.querySelector('[name*="l4tdoc"]')?.value || '',
+                    l4ndoc: item.querySelector('[name*="l4ndoc"]')?.value || '',
+                    l5nomb: item.querySelector('[name*="l5nomb"]')?.value || ''
+                });
+            });
+
+            // Construir objeto completo
+            const datosCompletos = {
+                datosPersonales: datosPersonales,
+                direcciones: direcciones,
+                contactos: contactos,
+                vinculados: vinculados
+            };
+
+            // Enviar al backend
+            fetch("/a/nuevo-cliente", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(datosCompletos)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.ok) {
+                    mostrarAlerta(data.mensaje || 'Cliente registrado exitosamente', 'success');
+                    
+                    // Limpiar formulario después de guardar
+                    setTimeout(() => {
+                        limpiarFormulario();
+                    }, 2000);
+                } else {
+                    mostrarAlerta(data.mensaje || 'Error al registrar cliente', 'danger');
+                }
+            })
+            .catch(error => {
+                mostrarAlerta('Error de conexión con el servidor: ' + error, 'danger');
+            });
+        }
+
+        function limpiarFormulario() {
+            document.getElementById('content-body').innerHTML = `
+                <div class="text-center text-muted py-5">
+                    <i class="fas fa-chart-pie fa-3x mb-3" aria-hidden="true"></i>
+                    <p>Selecciona una operación de analista para comenzar</p>
+                </div>
+            `;
+        }
+
+        // ==================== CREAR CUENTA ====================
+        function crearCuenta() {
+            const body = document.getElementById("content-body");
+            
+            body.innerHTML = `
+                <div class="operation-form">
+                    <h2>
+                        <i class="fas fa-piggy-bank" aria-hidden="true"></i>
+                        Crear Nueva Cuenta
+                    </h2>
+                    
+                    <form id="formCrearCuenta" onsubmit="event.preventDefault(); guardarCuenta()">
+                        <div class="form-section">
+                            <h3><i class="fas fa-user"></i> Datos del Titular</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="tdoc-cuenta">Tipo Documento <span class="text-danger">*</span></label>
+                                    <select id="tdoc-cuenta" class="form-select-custom" required>
+                                        <option value="">-- Seleccione --</option>
+                                        <option value="1">DNI</option>
+                                        <option value="2">RUC</option>
+                                        <option value="3">Carnet Extranjería</option>
+                                        <option value="4">Pasaporte</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="ndoc-cuenta">Número Documento <span class="text-danger">*</span></label>
+                                    <input type="text" id="ndoc-cuenta" class="form-control-custom" placeholder="Ej: 12345678" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3><i class="fas fa-wallet"></i> Datos de la Cuenta</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="tipo-cuenta">Tipo de Cuenta <span class="text-danger">*</span></label>
+                                    <select id="tipo-cuenta" class="form-select-custom" required>
+                                        <option value="">-- Seleccione --</option>
+                                        <option value="20">Cuenta Corriente</option>
+                                        <option value="21">Cuenta Ahorro</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="moneda-cuenta">Moneda <span class="text-danger">*</span></label>
+                                    <select id="moneda-cuenta" class="form-select-custom" required>
+                                        <option value="">-- Seleccione --</option>
+                                        <option value="0">Soles</option>
+                                        <option value="1">Dólares</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-3 justify-content-end mt-4">
+                            <button type="button" class="btn-secondary" onclick="limpiarFormulario()">
+                                <i class="fas fa-times"></i> Cancelar
+                            </button>
+                            <button type="submit" class="btn-confirm">
+                                <i class="fas fa-save"></i> Crear Cuenta
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            `;
+        }
+
+        function guardarCuenta() {
+            const tdoc = document.getElementById('tdoc-cuenta');
+            const ndoc = document.getElementById('ndoc-cuenta');
+            const tipo = document.getElementById('tipo-cuenta');
+            const moneda = document.getElementById('moneda-cuenta');
+
+            if (!tdoc.value || !ndoc.value || !tipo.value || !moneda.value) {
+                mostrarAlerta('Todos los campos son obligatorios', 'warning');
+                return;
+            }
+
+            const datosCuenta = {
+                tdoc: tdoc.value,
+                ndoc: ndoc.value,
+                tipo: tipo.value,
+                moneda: moneda.value
+            };
+
+            // Enviar al backend
+            fetch("/a/crear-cuenta", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(datosCuenta)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.ok) {
+                    mostrarAlerta(data.mensaje || 'Cuenta creada exitosamente', 'success');
+                    
+                    // Limpiar formulario después de guardar
+                    setTimeout(() => {
+                        limpiarFormulario();
+                    }, 2000);
+                } else {
+                    mostrarAlerta(data.mensaje || 'Error al crear cuenta', 'danger');
+                }
+            })
+            .catch(error => {
+                mostrarAlerta('Error de conexión con el servidor: ' + error, 'danger');
+            });
+        }
+
+        // ==================== EVALUAR CLIENTE ====================
+        function evaluarCliente() {
+            const body = document.getElementById("content-body");
+            
+            body.innerHTML = `
+                <div class="operation-form">
+                    <h2>
+                        <i class="fas fa-chart-line" aria-hidden="true"></i>
+                        Evaluar Cliente
+                    </h2>
+                    
+                    <form id="formEvaluar" onsubmit="event.preventDefault(); buscarCliente()">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="tdoc-eval">Tipo Documento <span class="text-danger">*</span></label>
+                                <select id="tdoc-eval" class="form-select-custom" required>
+                                    <option value="">-- Seleccione --</option>
+                                    <option value="1">DNI</option>
+                                    <option value="2">RUC</option>
+                                    <option value="3">Carnet Extranjería</option>
+                                    <option value="4">Pasaporte</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="ndoc-eval">Número Documento <span class="text-danger">*</span></label>
+                                <input type="text" id="ndoc-eval" class="form-control-custom" placeholder="Ej: 12345678" required>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex gap-3 justify-content-center mt-4">
+                            <button type="submit" class="btn-confirm">
+                                <i class="fas fa-search"></i> Buscar Cliente
+                            </button>
+                        </div>
+                    </form>
+
+                    <div id="resultado-evaluacion" class="evaluation-result" style="display: none;">
+                        <h3 class="p-3 bg-light mb-0"><i class="fas fa-clipboard-check"></i> Resultado de Evaluación</h3>
+                        <table class="info-table">
+                            <tr>
+                                <td>Cliente:</td>
+                                <td id="eval-nombre">-</td>
+                            </tr>
+                            <tr>
+                                <td>Documento:</td>
+                                <td id="eval-tdoc">-</td>
+                                <td>-</td>
+                                <td id="eval-ndoc">-</td>
+                            </tr>
+                            <tr>
+                                <td>Score Crediticio:</td>
+                                <td><span class="badge-success" id="eval-score">-</span></td>
+                            </tr>
+                            <tr>
+                                <td>Productos Activos:</td>
+                                <td id="eval-productos"></td>
+                            </tr>
+                            <tr>
+                                <td>Tasa:</td>
+                                <td id="eval-tasa"><span class="badge-success">0%</span></td>
+                            </tr>
+                            <tr>
+                                <td>Línea Aprobada:</td>
+                                <td id="eval-linea"></td>
+                            </tr>
+                        </table>
+                        
+                        <div class="p-3 text-end">
+                            <button type="button" id="btnAprobar" class="btn-confirm" style="display: none;">
+                                <i class="fas fa-check"></i> Aceptar Oferta
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function buscarCliente() {
+            const tdoc = document.getElementById('tdoc-eval').value;
+            const ndoc = document.getElementById('ndoc-eval').value;
+            const btnAprobar = document.getElementById('btnAprobar');
+
+            if (!tdoc || !ndoc) {
+                mostrarAlerta('Debe ingresar tipo y número de documento', 'warning');
+                return;
+            }
+
+            const datosCliente = {
+                tdoc: tdoc,
+                ndoc: ndoc
+            };
+
+            // Enviar al backend
+            fetch("/a/evaluar", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(datosCliente)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.ok) {
+                	console.log(data);
+                    mostrarAlerta('Cliente encontrado', 'success');
+                    
+                    // Mostrar resultados
+                    document.getElementById('resultado-evaluacion').style.display = 'block';	                    
+                    
+                    // Datos del cliente
+                    document.getElementById('eval-nombre').textContent = data.nombre || '-';
+                    
+                    // Tipo documento
+                    let tipoDocText = '';
+                    switch(tdoc) {
+                        case '1': tipoDocText = 'DNI'; break;
+                        case '2': tipoDocText = 'RUC'; break;
+                        case '3': tipoDocText = 'Carnet Extranjería'; break;
+                        case '4': tipoDocText = 'Pasaporte'; break;
+                        default: tipoDocText = '-';
+                    }
+                    document.getElementById('eval-tdoc').textContent = tipoDocText;
+                    document.getElementById('eval-ndoc').textContent = ndoc;
+                    
+                    // Score crediticio
+                    const scoreElement = document.getElementById('eval-score');
+                    scoreElement.textContent = data.calificacion || '-';
+                    
+                    // Limpiar clases anteriores
+                    scoreElement.className = '';
+                    
+                    switch(data.calificacion) {
+                        case 'NOR':
+                            scoreElement.className = 'badge-success';
+                            document.getElementById('eval-tasa').textContent = (data.tasa * 100).toFixed(2) + '%';
+                            document.getElementById('eval-linea').textContent = 'S/ ' + (data.importe || 0).toFixed(2);
+                            btnAprobar.style.display = 'inline-flex';
+                            break;
+                        case 'DUD':
+                            scoreElement.className = 'badge-warning';
+                            document.getElementById('eval-tasa').textContent = (data.tasa * 100).toFixed(2) + '%';
+                            document.getElementById('eval-linea').textContent = 'S/ ' + (data.importe || 0).toFixed(2);
+                            btnAprobar.style.display = 'inline-flex';
+                            break;
+                        case 'DEF':
+                            scoreElement.className = 'badge-danger';
+                            document.getElementById('eval-tasa').textContent = '';
+                            document.getElementById('eval-linea').textContent = '';
+                            btnAprobar.style.display = 'none';
+                            break;
+                        case 'CPP':
+                            scoreElement.className = 'badge-secondary';
+                            document.getElementById('eval-tasa').textContent = '';
+                            document.getElementById('eval-linea').textContent = '';
+                            btnAprobar.style.display = 'none';
+                            break;
+                        case 'PER':
+                            scoreElement.className = 'badge-dark';
+                            document.getElementById('eval-tasa').textContent = '';
+                            document.getElementById('eval-linea').textContent = '';
+                            btnAprobar.style.display = 'none';
+                            break;
+                        default:
+                            scoreElement.className = 'badge-light';
+                            document.getElementById('eval-tasa').textContent = '';
+                            document.getElementById('eval-linea').textContent = '';
+                            btnAprobar.style.display = 'none';
+                    }
+                    
+                    document.getElementById('eval-productos').textContent = data.cantidad || '0';
+                    
+                    // Configurar botón de aprobación
+                    btnAprobar.setAttribute("onclick", `aprobarCliente('${tdoc}', '${ndoc}', '${data.tasa}', '${data.importe || 0}')`);
+                    
+                } else {
+                    mostrarAlerta(data.mensaje || 'Error al evaluar cliente', 'danger');
+                }
+            })
+            .catch(error => {
+                mostrarAlerta('Error de conexión con el servidor: ' + error, 'danger');
+            });                                         
+        }
+
+        // ==================== APROBAR CLIENTE (SOLICITAR DESEMBOLSO) ====================
+        function aprobarCliente(tdoc, ndoc, tasa, importe) {
+            const body = document.getElementById("content-body"); 
+            
+            body.innerHTML = `
+                <div class="operation-form">
+                    <h2>
+                        <i class="fas fa-hand-holding-usd" aria-hidden="true"></i>
+                        Solicitar Desembolso
+                    </h2>
+                    
+                    <div class="form-section">
+                        <h3><i class="fas fa-user"></i> Datos del Cliente</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Tipo Documento</label>
+                                <input type="text" class="form-control-custom" value="${tdoc === '1' ? 'DNI' : tdoc === '2' ? 'RUC' : tdoc === '3' ? 'Carnet Extranjería' : 'Pasaporte'}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Número Documento</label>
+                                <input type="text" class="form-control-custom" value="${ndoc}" readonly>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Tasa (%)</label>
+                                <input type="text" class="form-control-custom" value="${(parseFloat(tasa) * 100).toFixed(2)}%" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Importe Aprobado</label>
+                                <input type="text" class="form-control-custom" value="S/ ${parseFloat(importe).toFixed(2)}" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3><i class="fas fa-clock"></i> Seleccionar Plazo</h3>
+                        <div class="form-group">
+                            <label for="plazo-des">Plazo (meses) <span class="text-danger">*</span></label>
+                            <select id="plazo-des" class="form-select-custom" required>
+                                <option value="">-- Seleccione plazo --</option>
+                                <option value="6">6 meses</option>
+                                <option value="12">12 meses</option>
+                                <option value="18">18 meses</option>
+                                <option value="24">24 meses</option>
+                                <option value="36">36 meses</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <i class="fas fa-calculator"></i>
+                        <strong>Simulación:</strong> 
+                        <span id="simulacion">Seleccione un plazo para ver la simulación</span>
+                    </div>
+
+                    <div class="d-flex gap-3 justify-content-end mt-4">
+                        <button type="button" class="btn-secondary" onclick="limpiarFormulario()">
+                            <i class="fas fa-times"></i> Cancelar
+                        </button>
+                        <button type="button" class="btn-confirm" onclick="solicitarDesembolso('${tdoc}', '${ndoc}', '${tasa}', '${importe}')">
+                            <i class="fas fa-paper-plane"></i> Solicitar Desembolso
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            // Agregar evento para simulación
+            document.getElementById('plazo-des').addEventListener('change', function() {
+                const plazo = this.value;
+                const importeVal = parseFloat(importe);
+                const tasaVal = parseFloat(tasa);
+                
+                if (plazo && importeVal > 0 && tasaVal > 0) {
+                    const tasaMensual = tasaVal / 12;
+                    const cuota = (importeVal * tasaMensual * Math.pow(1 + tasaMensual, plazo)) / (Math.pow(1 + tasaMensual, plazo) - 1);
+                    
+                    document.getElementById('simulacion').innerHTML = `
+                        <strong>Cuota mensual aproximada:</strong> S/ ${cuota.toFixed(2)} | 
+                        <strong>Total a pagar:</strong> S/ ${(cuota * plazo).toFixed(2)}
+                    `;
+                }
+            });
+        }
+
+        // ==================== SOLICITAR DESEMBOLSO ====================
+        function solicitarDesembolso(tdoc, ndoc, tasa, importe) {
+            const plazo = document.getElementById('plazo-des').value;
+            
+            if (!plazo) {
+                mostrarAlerta('Debe seleccionar un plazo', 'warning');
+                return;
+            }
+
+            const datosCliente = {
+                tdoc: tdoc,
+                ndoc: ndoc,
+                tasa: parseFloat(tasa),
+                importe: parseFloat(importe),
+                plazo: parseInt(plazo)
+            };
+
+            // Enviar al backend
+            fetch("/a/desembolsar", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(datosCliente)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.ok) {
+                    mostrarAlerta(data.mensaje || 'Crédito desembolsado exitosamente', 'success');
+                    setTimeout(() => {
+                        limpiarFormulario();
+                    }, 2000);
+                } else {
+                    mostrarAlerta(data.mensaje || 'Error al desembolsar crédito', 'danger');
+                }
+            })
+            .catch(error => {
+                mostrarAlerta('Error de conexión con el servidor: ' + error, 'danger');
+            });           
+        }
+
+        // ==================== VER CRONOGRAMA ====================
+        function verCronograma() {
+            const body = document.getElementById("content-body");
+            
+            body.innerHTML = `
+                <div class="operation-form">
+                    <h2>
+                        <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                        Consultar Cronograma de Pagos
+                    </h2>
+                    
+                    <form id="formCronograma" onsubmit="event.preventDefault(); buscarPrestamos()">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="tdoc-cron">Tipo Documento <span class="text-danger">*</span></label>
+                                <select id="tdoc-cron" class="form-select-custom" required>
+                                    <option value="">-- Seleccione --</option>
+                                    <option value="1">DNI</option>
+                                    <option value="2">RUC</option>
+                                    <option value="3">Carnet Extranjería</option>
+                                    <option value="4">Pasaporte</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="ndoc-cron">Número Documento <span class="text-danger">*</span></label>
+                                <input type="text" id="ndoc-cron" class="form-control-custom" placeholder="Ej: 12345678" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="operacion-cron">Número Operación</label>
+                                <input type="text" id="operacion-cron" class="form-control-custom" placeholder="Opcional">
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex gap-3 justify-content-center mt-4">
+                            <button type="submit" class="btn-confirm">
+                                <i class="fas fa-search"></i> Buscar Préstamos
+                            </button>
+                        </div>
+                    </form>
+
+                    <div id="prestamos-container" class="prestamos-list" style="display: none;">
+                        <h3 class="mt-4 mb-3">Préstamos del Cliente</h3>
+                        <div id="prestamos-list"></div>
+                    </div>
+
+                    <div id="cronograma-container" style="display: none;">
+                        <h3 class="mt-4 mb-3">Cronograma de Pagos</h3>
+                        <div id="cronograma-table"></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function buscarPrestamos() {
+            const tdoc = document.getElementById('tdoc-cron').value;
+            const ndoc = document.getElementById('ndoc-cron').value;
+            const operacion = document.getElementById('operacion-cron').value;
+
+            if (!tdoc || !ndoc) {
+                mostrarAlerta('Debe ingresar tipo y número de documento', 'warning');
+                return;
+            }
+
+            const datosBusqueda = {
+                tdoc: tdoc,
+                ndoc: ndoc,
+                operacion: operacion || null
+            };
+
+            // Simular llamada al backend (reemplazar con fetch real)
+            // fetch("/a/prestamos", {
+            //     method: "POST",
+            //     headers: {"Content-Type": "application/json"},
+            //     body: JSON.stringify(datosBusqueda)
+            // })
+            // .then(res => res.json())
+            // .then(data => {
+            //     if (data.ok) {
+            //         mostrarPrestamos(data.prestamos);
+            //     } else {
+            //         mostrarAlerta(data.mensaje || 'No se encontraron préstamos', 'warning');
+            //     }
+            // })
+            // .catch(error => {
+            //     mostrarAlerta('Error de conexión: ' + error, 'danger');
+            // });
+
+            // Datos de ejemplo para pruebas
+            setTimeout(() => {
+                const prestamosEjemplo = [
+                    { 
+                        id: 1, 
+                        operacion: 'P001', 
+                        fecha: '2025-01-15', 
+                        importe: 5000, 
+                        plazo: 12, 
+                        estado: 'Activo',
+                        cuotasPagadas: 8,
+                        totalCuotas: 12
+                    },
+                    { 
+                        id: 2, 
+                        operacion: 'P002', 
+                        fecha: '2025-03-10', 
+                        importe: 10000, 
+                        plazo: 24, 
+                        estado: 'Activo',
+                        cuotasPagadas: 3,
+                        totalCuotas: 24
+                    },
+                    { 
+                        id: 3, 
+                        operacion: 'P003', 
+                        fecha: '2024-11-20', 
+                        importe: 3000, 
+                        plazo: 6, 
+                        estado: 'Pagado',
+                        cuotasPagadas: 6,
+                        totalCuotas: 6
+                    }
+                ];
+                
+                mostrarPrestamos(prestamosEjemplo);
+            }, 500);
+        }
+
+        function mostrarPrestamos(prestamos) {
+            const container = document.getElementById('prestamos-container');
+            const listContainer = document.getElementById('prestamos-list');
+            
+            if (!prestamos || prestamos.length === 0) {
+                mostrarAlerta('No se encontraron préstamos para este cliente', 'info');
+                container.style.display = 'none';
+                return;
+            }
+
+            let html = '';
+            prestamos.forEach(prestamo => {
+                const porcentaje = (prestamo.cuotasPagadas / prestamo.totalCuotas) * 100;
+                const estadoClass = prestamo.estado === 'Activo' ? 'badge-success' : 'badge-secondary';
+                
+                html += `
+                    <div class="prestamo-item" onclick="seleccionarPrestamo(${prestamo.id})">
+                        <div class="prestamo-info">
+                            <span><strong>Operación:</strong> ${prestamo.operacion}</span>
+                            <span><strong>Fecha:</strong> ${prestamo.fecha}</span>
+                            <span><strong>Importe:</strong> S/ ${prestamo.importe.toFixed(2)}</span>
+                            <span><strong>Plazo:</strong> ${prestamo.plazo} meses</span>
+                            <span><strong>Progreso:</strong> ${prestamo.cuotasPagadas}/${prestamo.totalCuotas}</span>
+                            <span class="${estadoClass}">${prestamo.estado}</span>
+                        </div>
+                        <div class="progress" style="width: 200px; height: 10px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: ${porcentaje}%"></div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            listContainer.innerHTML = html;
+            container.style.display = 'block';
+            document.getElementById('cronograma-container').style.display = 'none';
+        }
+
+        function seleccionarPrestamo(prestamoId) {
+            // Simular obtención de cronograma
+            // fetch("/a/cronograma/" + prestamoId)
+            //     .then(res => res.json())
+            //     .then(data => {
+            //         if (data.ok) {
+            //             mostrarCronograma(data.cronograma);
+            //         }
+            //     });
+
+            // Datos de ejemplo para pruebas
+            setTimeout(() => {
+                const cronogramaEjemplo = [
+                    { numero: 1, capital: 416.67, interes: 100.00, cuota: 516.67, pagado: 'S' },
+                    { numero: 2, capital: 416.67, interes: 95.83, cuota: 512.50, pagado: 'S' },
+                    { numero: 3, capital: 416.67, interes: 91.67, cuota: 508.34, pagado: 'S' },
+                    { numero: 4, capital: 416.67, interes: 87.50, cuota: 504.17, pagado: 'S' },
+                    { numero: 5, capital: 416.67, interes: 83.33, cuota: 500.00, pagado: 'S' },
+                    { numero: 6, capital: 416.67, interes: 79.17, cuota: 495.84, pagado: 'S' },
+                    { numero: 7, capital: 416.67, interes: 75.00, cuota: 491.67, pagado: 'S' },
+                    { numero: 8, capital: 416.67, interes: 70.83, cuota: 487.50, pagado: 'S' },
+                    { numero: 9, capital: 416.67, interes: 66.67, cuota: 483.34, pagado: 'N' },
+                    { numero: 10, capital: 416.67, interes: 62.50, cuota: 479.17, pagado: 'N' },
+                    { numero: 11, capital: 416.67, interes: 58.33, cuota: 475.00, pagado: 'N' },
+                    { numero: 12, capital: 416.67, interes: 54.17, cuota: 470.84, pagado: 'N' }
+                ];
+                
+                mostrarCronograma(cronogramaEjemplo);
+            }, 500);
+        }
+
+        function mostrarCronograma(cronograma) {
+            const container = document.getElementById('cronograma-container');
+            const tableContainer = document.getElementById('cronograma-table');
+            
+            let html = `
+                <table class="table-cronograma">
+                    <thead>
+                        <tr>
+                            <th>N° Cuota</th>
+                            <th>Capital</th>
+                            <th>Interés</th>
+                            <th>Cuota</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            cronograma.forEach(cuota => {
+                const estadoClass = cuota.pagado === 'S' ? 'pagado-si' : 'pagado-no';
+                const estadoText = cuota.pagado === 'S' ? 'Pagado' : 'Pendiente';
+                
+                html += `
+                    <tr>
+                        <td>${cuota.numero}</td>
+                        <td>S/ ${cuota.capital.toFixed(2)}</td>
+                        <td>S/ ${cuota.interes.toFixed(2)}</td>
+                        <td>S/ ${cuota.cuota.toFixed(2)}</td>
+                        <td class="${estadoClass}">${estadoText}</td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                    </tbody>
+                </table>
+            `;
+
+            tableContainer.innerHTML = html;
+            container.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
